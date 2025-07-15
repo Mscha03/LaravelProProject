@@ -1,0 +1,4 @@
+install laravel/ui -> auth
+
+artisan ui bootstrap -> change ui to bootstrap
+npm install && npm run dev
