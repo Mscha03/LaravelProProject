@@ -1,0 +1,5 @@
+login with Google
+
+google developer console -> create project -> credentials -> OAuth 2.0 client IDs -> create credentials -> web application -> authorized redirect URIs
+laravel documentation -> laravel socialite -> installation - configuration
+
