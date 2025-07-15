@@ -1,0 +1,3 @@
+Create or update user GoogleAuthController in by information get from Google
+
+GoogleAuthController redirect and callback methods created.
