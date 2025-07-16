@@ -1,0 +1,8 @@
+connect to smtp for reset password -> mailtrp
+
+.env edited ->
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=4c8da734ae8091
+MAIL_PASSWORD=2fc69a94f2f916
