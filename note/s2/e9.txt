@@ -1,0 +1,10 @@
+web.php -> Auth::routes(['verify' => true ]); -> add verify email routes
+
+User Model -> implements MustVerifyEmail
+
+HomeController.php ->     public function __construct()
+                          {
+                              $this->middleware(['auth', 'verified']);
+                          }
+
+
