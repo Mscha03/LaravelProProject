@@ -22,6 +22,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'is_superuser',
+        'is_stuff',
     ];
 
     /**
@@ -45,5 +47,15 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function is_superuser(): bool
+    {
+        return $this->is_superuser();
+    }
+
+    public function is_stuff(): bool
+    {
+        return $this->is_stuff();
     }
 }
