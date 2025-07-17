@@ -1,0 +1,6 @@
+Refactor admin panel layout and add user list view
+
+- Removed the inline navbar and sidebar code from master.blade.php and included them as separate components for better maintainability.
+- Created a new view for the user list at resources/views/admin/users/all.blade.php.
+- Updated the admin route to return the new user list view instead of a placeholder string.
+- Changed the main route to return the admin index view instead of the master view.
