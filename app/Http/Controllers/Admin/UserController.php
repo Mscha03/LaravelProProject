@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 
 class UserController extends Controller
@@ -39,7 +40,7 @@ class UserController extends Controller
         ]);
 
         $user = User::create($data);
-        
+
         if ($request->has('verify')) {
             $user->markEmailAsVerified();
         }
@@ -57,17 +58,36 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $data = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|', Rule::unique('users')->ignore($user),
+    ]);
+
+        if(! is_null($request->password)){
+            $request->validate([
+                'password' => 'required|string|min:8|confirmed',
+            ]);
+
+            $data['password'] = $request->password;
+        }
+
+         $user->update($data);
+
+        if ($request->has('verify')) {
+            $user->markEmailAsVerified();
+        }
+
+        return redirect()->route('admin.users.index');
     }
 
     /**

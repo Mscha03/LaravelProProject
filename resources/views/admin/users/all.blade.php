@@ -46,7 +46,7 @@
                           @endif
                         </td>
                         <td>
-                            <a href='#' class="btn btn-info btn-sm">ویرایش</a>
+                            <a href='{{ route('admin.users.edit', ['user' => $user->id]) }}' class="btn btn-info btn-sm">ویرایش</a>
                             <a href='#' class="btn btn-danger btn-sm">حذف</a>
                         </td>
                       </tr>
