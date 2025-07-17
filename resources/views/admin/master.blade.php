@@ -88,6 +88,7 @@
 <script src="/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/resources/js/admin/adminlte.js"></script>
+@include('sweetalert2::index')
 
 </body>
 </html>
