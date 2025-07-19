@@ -49,11 +49,12 @@
                                     @endif
                                 </td>
                                 <td class="d-flex">
-                                    <a href='{{ route('admin.users.edit', ['user' => $user->id]) }}'
+                                    @can('edit-user', $user)
+                                      <a href='{{ route('admin.users.edit', ['user' => $user->id]) }}'
                                        class="btn btn-info btn-sm">ویرایش</a>
 
-                                    <button class="btn btn-danger mr-2 btn-sm" onclick="confirmDelete({{ $user->id }}, '{{ $user->name }}')"> حذف</button>
-
+                                       <button class="btn btn-danger mr-2 btn-sm" onclick="confirmDelete({{ $user->id }}, '{{ $user->name }}')"> حذف</button>
+                                    @endcan 
 
                                 </td>
                             </tr>

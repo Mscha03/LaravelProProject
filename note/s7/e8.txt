@@ -1,2 +1,5 @@
+laravel 12 => app\Providers\AppServiceProvider.php
+
 ساید بار ویرایش و باز طراحی شد
 یه هلپر فانکشن برای بررسی آیتم فعال ساید بار ساخته شد
+

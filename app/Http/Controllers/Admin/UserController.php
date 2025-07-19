@@ -7,12 +7,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 
 use SweetAlert2\Laravel\Swal;
 
 
 class UserController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+
+    }
     /**
      * Display a listing of the resource.
      */
@@ -81,7 +90,28 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+
+        if(Gate::allows('edit', $user)) {
+            return view('admin.users.edit', compact('user'));
+        }
+
+        // $this->authorize('edit-user', $user);
+
+        // if(auth()->user()->can('edit-user', $user)) {
+        //  return view('admin.users.edit', compact('user'));
+        // }
+
+        abort(403);
+
+
+        // if (Gate::denies('edit-user', $user)) {
+        //     Swal::fire([
+        //         'title' => 'شما اجازه ویرایش این کاربر را ندارید',
+        //         'icon' => 'error',
+        //         'confirmButtonText' => 'باشه'
+        //     ]);
+        //     return redirect()->route('admin.users.index');
+        // }
     }
 
     /**
