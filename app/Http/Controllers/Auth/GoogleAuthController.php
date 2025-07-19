@@ -31,11 +31,14 @@ class GoogleAuthController extends Controller
                     'name' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'password' => bcrypt(\Str::random(16)), // Generate a random password
-//                    'google_token' => $googleUser->token,
-//                    'google_refresh_token' => $googleUser->refreshToken,
                 ]);
 
             }
+
+            if (!$user->hasVerifiedEmail()) {
+                $user->markEmailAsVerified();
+            }
+
             Auth::login($user);
 
 
