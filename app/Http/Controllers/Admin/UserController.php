@@ -18,7 +18,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(2); // Assuming you have a User model
+        $users = User::query();
+
+        if($keyword = request('table_search')) {
+            $users->where('email', 'like', '%'.$keyword.'%')->orWhere('name', 'like', '%'.$keyword.'%')->orWhere('id', '%'.$keyword.'%');
+        }
+
+        if (\request('admin')) {
+            $users->where('is_superuser', true)->orWhere('is_stuff', true);
+        }
+
+        $users = $users->latest()->paginate(20); // Assuming you have a User model
         return view('admin.users.all', compact('users')); // Assuming you have a view for listing users
     }
 
@@ -27,6 +37,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        // Return the view for creating a new user
         return view('admin.users.create');
     }
 
@@ -47,6 +58,13 @@ class UserController extends Controller
         if ($request->has('verify')) {
             $user->markEmailAsVerified();
         }
+
+            Swal::fire([
+            'title' => "کاربر $user->name ایجاد شد",
+            'icon' => 'info',
+            'confirmButtonText' => 'باشه'
+        ]);
+
         return redirect()->route('admin.users.index');
     }
 
@@ -104,7 +122,16 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        
         $user->delete();
+
+        Swal::fire([
+            'title' => 'با موفقیت حذف شد',
+            'icon' => 'success',
+            'confirmButtonText' => 'باشه'
+        ]);
+
+
         return redirect()->route('admin.users.index');
     }
-}
+}   

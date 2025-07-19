@@ -1,0 +1,16 @@
+اضافه کردن قسمت سرچ
+
+گرفتن کل url فعلی و اضافه کردن یه تیکه بهش برای سرچ کردن
+
+<a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}" class="btn btn-warning"> کاربران مدیر</a>
+
+if (\request('admin')) {
+    $users->where('is_superuser', true)->orWhere('is_stuff', true);
+}
+
+
+هندل کردن ورودی و سرچ کردن ورودی توی لیست
+        if($keyword = request('table_search')) {
+            $users->where('email', 'like', '%'.$keyword.'%')->orWhere('name', 'like', '%'.$keyword.'%')->orWhere('id', '%'.$keyword.'%');
+        }
+

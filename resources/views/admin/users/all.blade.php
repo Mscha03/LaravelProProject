@@ -11,15 +11,18 @@
                     <h3 class="card-title">کاربران</h3>
 
                     <div class="card-tools d-flex">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="جستجو">
+                        <form action="">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="جستجو" value="{{ request('table_search') }}">
 
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="btn-group-sm mr-2">
                             <a href="{{ route('admin.users.create') }}" class="btn btn-info">افزودن کاربر جدید</a>
+                            <a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}" class="btn btn-warning"> کاربران مدیر</a>
                         </div>
                     </div>
                 </div>
@@ -48,11 +51,10 @@
                                 <td class="d-flex">
                                     <a href='{{ route('admin.users.edit', ['user' => $user->id]) }}'
                                        class="btn btn-info btn-sm">ویرایش</a>
-                                    <form action="{{route('admin.users.destroy', ['user' => $user])}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger mr-2 btn-sm">حذف</button>
-                                    </form>
+
+                                    <button class="btn btn-danger mr-2 btn-sm" onclick="confirmDelete({{ $user->id }}, '{{ $user->name }}')"> حذف</button>
+
+
                                 </td>
                             </tr>
                         @endforeach
@@ -62,11 +64,52 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                    {{ $users->render() }}
+                    {{ $users->links() }}
                 </div>
             </div>
             <!-- /.card -->
         </div>
+
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function confirmDelete(userId, userName) {
+                Swal.fire({
+                    title: `کاربر ${userName} حذف شود؟`,
+                    text: "شما نمی توانید این کار را برگردانید!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: "لغو",
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "بله، حذف کن!"
+                }).then((result) => {
+            if (result.isConfirmed) {
+                // ساخت و ارسال فرم به صورت POST/DELETE
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/admin/users/${userId}`;
+                
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = '_token';
+                tokenInput.value = '{{ csrf_token() }}';
+
+                const methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'DELETE';
+
+                form.appendChild(tokenInput);
+                form.appendChild(methodInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+            }
+        </script>
+
+
     </div>
 
 @endcomponent
