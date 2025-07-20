@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -62,5 +63,25 @@ class User extends Authenticatable implements MustVerifyEmail
     public function setPasswordAttribute(string $password): void
     {
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole($roles)
+    {
+        dd(!! $roles->intersect($this->roles)->all());
+    }
+
+    public function hasPermission(Permission $permission){
+        dd($this->permissions->contains('name', $permission->name) || $this->hasRole($permission->roles));
+        return $this->permissions;
     }
 }

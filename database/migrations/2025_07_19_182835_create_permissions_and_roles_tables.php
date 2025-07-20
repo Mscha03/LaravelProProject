@@ -33,7 +33,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('permission_roles', function (Blueprint $table) {
+        Schema::create('permission_role', function (Blueprint $table) {
             $table->unsignedBigInteger('permission_id');
             $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
             $table->unsignedBigInteger('role_id');
