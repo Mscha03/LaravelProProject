@@ -48,13 +48,34 @@
                                     <p>لیست کاربران</p>
                                 </a>
                             </li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ isActive(['admin.permissions.index', 'admin.permissions.create', 'admin.permissions.edit'], 'menu-open')}}">
+                        <a href="{{ route('admin.permissions.index') }}" class="nav-link {{isActive(['admin.permissions.index', 'admin.permissions.create', 'admin.permissions.edit']) }}">
+                            <i class="nav-icon fa fa-users"></i>
+                            <p>
+                                 بخش اجازه دسترسی
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa  fa-list nav-icon"></i>
-                                    <p>اجازه دسترسی</p>
+                                <a href="{{ route('admin.permissions.index') }}" class="nav-link active">
+                                    <i class="fa fa-list nav-icon"></i>
+                                    <p> همه  مقام ها</p>
                                 </a>
                             </li>
                         </ul>
+{{--                        <ul class="nav nav-treeview">--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="{{ route('admin.permissions.index') }}" class="nav-link {{isActive('admin.permissions.index')}}">--}}
+{{--                                    <i class="fa fa-list nav-icon"></i>--}}
+{{--                                    <p> همه دسترسی ها</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+
+{{--                        </ul>--}}
                     </li>
                 </ul>
             </nav>

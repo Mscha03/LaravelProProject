@@ -1,14 +1,14 @@
-@component('admin.layouts.content', ['title' => 'لیست کاربران'])
+@component('admin.layouts.content', ['title' => 'دسترسی ها'])
     @slot('breadcrumb')
         <li class="breadcrumb-item"><a href="/admin">پنل مدیریت</a></li>
-        <li class="breadcrumb-item active">لیست کاربران</li>
+        <li class="breadcrumb-item active">دسترسی ها</li>
     @endslot
 
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">کاربران</h3>
+                    <h3 class="card-title">دسترسی ها</h3>
 
                     <div class="card-tools d-flex">
                         <form action="">
@@ -21,9 +21,7 @@
                             </div>
                         </form>
                         <div class="btn-group-sm mr-2">
-                            <a href="{{ route('admin.users.create') }}" class="btn btn-info">افزودن کاربر جدید</a>
-                            <a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}" class="btn btn-warning"> کاربران
-                                مدیر</a>
+                            <a href="{{ route('admin.permissions.create') }}" class="btn btn-info">ایجاد دسترسی جدید</a>
                         </div>
                     </div>
                 </div>
@@ -32,29 +30,21 @@
                     <table class="table table-hover">
                         <tbody>
                         <tr>
-                            <th>آیدی کاربر</th>
-                            <th>نام کاربر</th>
-                            <th>وضعیت ایمیل</th>
+                            <th>نام دسترسی</th>
+                            <th>توضیح دسترسی</th>
                             <th>اقدامات</th>
                         </tr>
 
-                        @foreach($users as $user)
+                        @foreach($permissions as $permission)
                             <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>
-                                    @if($user->email_verified_at)
-                                        <span class="badge badge-success">تایید شده</span>
-                                    @else
-                                        <span class="badge badge-danger">تایید نشده</span>
-                                    @endif
-                                </td>
+                                <td>{{ $permission->name }}</td>
+                                <td>{{ $permission->label }}</td>
                                 <td class="d-flex">
-                                        <a href='{{ route('admin.users.edit', ['user' => $user->id]) }}'
+                                        <a href='{{ route('admin.permissions.edit', ['permission' => $permission->id]) }}'
                                            class="btn btn-info btn-sm">ویرایش</a>
 
                                         <button class="btn btn-danger mr-2 btn-sm"
-                                                onclick="confirmDelete({{ $user->id }}, '{{ $user->name }}')"> حذف
+                                                onclick="confirmDelete({{ $permission->id }}, '{{ $permission->name }}')"> حذف
                                         </button>
 
                                 </td>
@@ -66,7 +56,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                    {{ $users->links() }}
+                    {{ $permissions->links() }}
                 </div>
             </div>
             <!-- /.card -->
@@ -74,9 +64,11 @@
 
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            function confirmDelete(userId, userName) {
+            import Swal from "sweetalert2";
+
+            function confirmDelete(permissionId, permissionName) {
                 Swal.fire({
-                    title: `کاربر ${userName} حذف شود؟`,
+                    title: `دسترسی  ${permissionName} حذف شود؟`,
                     text: "شما نمی توانید این کار را برگردانید!",
                     icon: "warning",
                     showCancelButton: true,
@@ -89,7 +81,7 @@
                         // ساخت و ارسال فرم به صورت POST/DELETE
                         const form = document.createElement('form');
                         form.method = 'POST';
-                        form.action = `/admin/users/${userId}`;
+                        form.action = `/admin/permissions/${permissionId}`;
 
                         const tokenInput = document.createElement('input');
                         tokenInput.type = 'hidden';

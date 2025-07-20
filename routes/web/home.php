@@ -7,11 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    if(Gate::allows('edit-user')){
         return view('welcome');
-    }
-
-    return 'no';
 });
 
 Auth::routes(['verify' => true ]);
